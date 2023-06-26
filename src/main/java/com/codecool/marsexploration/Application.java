@@ -23,10 +23,11 @@ public class Application {
         MapElementBuilder mapElementFactory = null;
         MapElementsGenerator mapElementsGenerator = null;
 
-        MapConfigurationValidator mapConfigValidator = null;
+        MapConfigurationValidator mapConfigValidator = new MapConfigurationValidatorImpl();
         MapElementPlacer mapElementPlacer = null;
 
         MapGenerator mapGenerator = null;
+        mapConfigValidator.validate(mapConfig);
 
         createAndWriteMaps(3, mapGenerator, mapConfig);
 
@@ -84,7 +85,7 @@ public class Application {
                 "&"
         );
 
-        List<MapElementConfiguration> elementsCfg = List.of(mountainsCfg);
+        List<MapElementConfiguration> elementsCfg = List.of(mountainsCfg,pitsCfg,mineralCfg,waterCfg);
         return new MapConfiguration(1000, 0.5, elementsCfg);
     }
 }
