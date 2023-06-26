@@ -17,7 +17,7 @@ public class Application {
         System.out.println("Mars Exploration Sprint 1");
         MapConfiguration mapConfig = getConfiguration();
 
-        DimensionCalculator dimensionCalculator = null;
+        DimensionCalculator dimensionCalculator = new DimensionCalculatorImpl();
         CoordinateCalculator coordinateCalculator = null;
 
         MapElementBuilder mapElementFactory = null;
@@ -26,8 +26,7 @@ public class Application {
         MapConfigurationValidator mapConfigValidator = new MapConfigurationValidatorImpl();
         MapElementPlacer mapElementPlacer = null;
 
-        MapGenerator mapGenerator = null;
-        mapConfigValidator.validate(mapConfig);
+        MapGenerator mapGenerator = new MapGeneratorImpl();
 
         createAndWriteMaps(3, mapGenerator, mapConfig);
 
