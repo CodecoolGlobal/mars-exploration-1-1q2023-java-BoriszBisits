@@ -17,18 +17,22 @@ public class Application {
     public static void main(String[] args) {
         System.out.println("Mars Exploration Sprint 1");
 
+
        Input input=new Input();
         MapConfiguration mapConfig = getConfiguration(input);
-        DimensionCalculator dimensionCalculator = null;
+      
+
+        DimensionCalculator dimensionCalculator = new DimensionCalculatorImpl();
+
         CoordinateCalculator coordinateCalculator = null;
 
         MapElementBuilder mapElementFactory = null;
         MapElementsGenerator mapElementsGenerator = null;
 
-        MapConfigurationValidator mapConfigValidator = null;
+        MapConfigurationValidator mapConfigValidator = new MapConfigurationValidatorImpl();
         MapElementPlacer mapElementPlacer = null;
 
-        MapGenerator mapGenerator = null;
+        MapGenerator mapGenerator = new MapGeneratorImpl();
 
         createAndWriteMaps(3, mapGenerator, mapConfig);
 
@@ -78,7 +82,7 @@ public class Application {
                 "&"
         );
 
-        List<MapElementConfiguration> elementsCfg = List.of(mountainsCfg);
+        List<MapElementConfiguration> elementsCfg = List.of(mountainsCfg,pitsCfg,mineralCfg,waterCfg);
         return new MapConfiguration(1000, 0.5, elementsCfg);
     }
 }
