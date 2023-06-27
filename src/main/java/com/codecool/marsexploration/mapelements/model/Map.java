@@ -1,5 +1,7 @@
 package com.codecool.marsexploration.mapelements.model;
 
+import java.util.Arrays;
+
 public class Map {
     private String[][] representation;
 
@@ -18,7 +20,20 @@ public class Map {
     }
 
     private static String createStringRepresentation(String[][] arr) {
-        return "";
+
+
+        StringBuilder simpleString = new StringBuilder();
+
+
+        for (String[] row : arr) {
+            System.out.println(row.length);
+            for (String element : row) {
+                simpleString.append(element).append(" ");
+            }
+            simpleString.append(System.lineSeparator());
+        }
+
+        return simpleString.toString();
     }
 
     @Override
