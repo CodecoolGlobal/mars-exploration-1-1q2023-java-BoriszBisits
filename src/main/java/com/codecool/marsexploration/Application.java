@@ -4,6 +4,7 @@ import com.codecool.marsexploration.calculators.service.*;
 import com.codecool.marsexploration.configuration.model.*;
 import com.codecool.marsexploration.configuration.service.*;
 import com.codecool.marsexploration.mapelements.input.Input;
+import com.codecool.marsexploration.mapelements.model.MapElement;
 import com.codecool.marsexploration.mapelements.service.builder.*;
 import com.codecool.marsexploration.mapelements.service.generator.*;
 import com.codecool.marsexploration.mapelements.service.placer.*;
@@ -18,16 +19,16 @@ public class Application {
         System.out.println("Mars Exploration Sprint 1");
 
 
-       Input input=new Input();
+        Input input=new Input();
         MapConfiguration mapConfig = getConfiguration(input);
-      
+
 
         DimensionCalculator dimensionCalculator = new DimensionCalculatorImpl();
 
         CoordinateCalculator coordinateCalculator = null;
 
-        MapElementBuilder mapElementFactory = null;
-        MapElementsGenerator mapElementsGenerator = null;
+        MapElementBuilder mapElementFactory = new MapElementBuilderImpl(dimensionCalculator);
+        MapElementsGenerator mapElementsGenerator = new MapElementsGeneratorImpl();
 
         MapConfigurationValidator mapConfigValidator = new MapConfigurationValidatorImpl();
         MapElementPlacer mapElementPlacer = null;
@@ -52,8 +53,11 @@ public class Application {
         MapElementConfiguration mountainsCfg = new MapElementConfiguration(
                 mountainSymbol,
                 "mountain",
-                input.Input_elemntSize("Mountain")
-                ,
+                //Input.Input_elemntSize("Mountain")
+                List.of(
+                        new ElementToSize(2, 20),
+                        new ElementToSize(1, 30)
+                ),
                 3,
                 ""
         );
@@ -61,7 +65,11 @@ public class Application {
         MapElementConfiguration pitsCfg = new MapElementConfiguration(
                 pitSymbol,
                 "pit",
-                input.Input_elemntSize("Pit"),
+                //Input.Input_elemntSize("Pit"),
+                List.of(
+                        new ElementToSize(2,10),
+                        new ElementToSize(1,20)
+                ),
                 10,
                 ""
         );
@@ -69,7 +77,10 @@ public class Application {
         MapElementConfiguration mineralCfg = new MapElementConfiguration(
                 mineralSymbol,
                 "mineral",
-                input.Input_elemntSize("Mineral"),
+                //Input.Input_elemntSize("Mineral"),
+                List.of(
+                        new ElementToSize(10,1)
+                ),
                 0,
                 "#"
         );
@@ -77,7 +88,10 @@ public class Application {
         MapElementConfiguration waterCfg = new MapElementConfiguration(
                 waterSymbol,
                 "water",
-                input.Input_elemntSize("Water"),
+                //Input.Input_elemntSize("Water"),
+                List.of(
+                        new ElementToSize(10,1)
+                ),
                 0,
                 "&"
         );
@@ -86,4 +100,3 @@ public class Application {
         return new MapConfiguration(1000, 0.5, elementsCfg);
     }
 }
-
