@@ -9,6 +9,7 @@ import com.codecool.marsexploration.mapelements.service.generator.*;
 import com.codecool.marsexploration.mapelements.service.placer.*;
 
 import java.util.List;
+import java.util.Scanner;
 
 public class Application {
     // You can change this to any directory you like
@@ -47,8 +48,19 @@ public class Application {
         final String pitSymbol = "&";
         final String mineralSymbol = "%";
         final String waterSymbol = "*";
+        int mapSize;
 
         List<ElementToSize> Input_Mountain;
+
+        Scanner myObj = new Scanner(System.in);
+        System.out.println("Please Enter map Size");
+        mapSize=Integer.parseInt(myObj.nextLine());
+
+
+
+
+
+
         MapElementConfiguration mountainsCfg = new MapElementConfiguration(
                 mountainSymbol,
                 "mountain",
@@ -83,7 +95,9 @@ public class Application {
         );
 
         List<MapElementConfiguration> elementsCfg = List.of(mountainsCfg,pitsCfg,mineralCfg,waterCfg);
-        return new MapConfiguration(1000, 0.5, elementsCfg);
+        System.out.println(elementsCfg);
+        System.out.println("mapsize : "+mapSize);
+        return new MapConfiguration(mapSize, 0.5, elementsCfg);
     }
 }
 

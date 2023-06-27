@@ -14,15 +14,23 @@ public class Input {
         System.out.println("Enter number of "+elementType);
 
         int numOfElements = Integer.parseInt(myObj.nextLine());
-        System.out.println("Number of "+elementType+" is: " + numOfElements);
-        for (int i = 0; i <numOfElements ; i++) {
-            int index=i+1;
-            System.out.println("Please Enter the "+index+" "+ elementType+"'s size");
-            int sizeOfElement=Integer.parseInt(myObj.nextLine());
-            ElementToSize element=new ElementToSize(1,sizeOfElement);
-            elementList.add(element);
+        if (elementType.equals("Mountain" ) || elementType.equals("Pit")){
+            System.out.println("Number of "+elementType+" is: " + numOfElements);
+            for (int i = 0; i <numOfElements ; i++) {
+                int index=i+1;
+                System.out.println("Please Enter the "+index+" "+ elementType+"'s size");
+                int sizeOfElement=Integer.parseInt(myObj.nextLine());
+                ElementToSize element=new ElementToSize(1,sizeOfElement);
+                elementList.add(element);
 
+            }
+        }else {
+
+            ElementToSize element=new ElementToSize(numOfElements ,0);
+            elementList.add(element);
         }
+
+
         return elementList;
     }
     List<Integer> elementSize=new ArrayList<>();

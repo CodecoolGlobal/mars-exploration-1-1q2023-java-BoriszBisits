@@ -10,6 +10,8 @@ public class MapElement extends Map {
         this(representation, name, dimension, null);
     }
 
+
+
     public MapElement(String[][] representation, String name, int dimension, String preferredLocationSymbol) {
         super(representation);
         this.name = name;
