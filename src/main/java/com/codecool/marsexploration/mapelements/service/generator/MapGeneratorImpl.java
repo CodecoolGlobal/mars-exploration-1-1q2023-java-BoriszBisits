@@ -1,48 +1,46 @@
 package com.codecool.marsexploration.mapelements.service.generator;
 
+import com.codecool.marsexploration.calculators.model.Coordinate;
+import com.codecool.marsexploration.calculators.service.CoordinateCalculatoImpl;
+import com.codecool.marsexploration.calculators.service.CoordinateCalculator;
 import com.codecool.marsexploration.calculators.service.DimensionCalculator;
-import com.codecool.marsexploration.calculators.service.DimensionCalculatorImpl;
-import com.codecool.marsexploration.configuration.model.ElementToSize;
 import com.codecool.marsexploration.configuration.model.MapConfiguration;
 import com.codecool.marsexploration.mapelements.model.Map;
+import com.codecool.marsexploration.mapelements.model.MapElement;
+import com.codecool.marsexploration.mapelements.service.placer.MapElementPlacer;
+import com.codecool.marsexploration.mapelements.service.placer.MapElementPlacerImpl;
 
-import java.util.List;
+public class MapGeneratorImpl implements MapGenerator {
 
-public class MapGeneratorImpl implements MapGenerator{
-    DimensionCalculator dimensionCalculator = new DimensionCalculatorImpl();
+    private final MapElementsGenerator mapElementsGenerator;
+    private final DimensionCalculator dimensionCalculator;
+    MapElementPlacer mapElementPlacer = new MapElementPlacerImpl();
+    CoordinateCalculator calculator = new CoordinateCalculatoImpl();
+
+    public MapGeneratorImpl(MapElementsGenerator mapElementsGenerator, DimensionCalculator dimensionCalculator) {
+        this.mapElementsGenerator = mapElementsGenerator;
+        this.dimensionCalculator = dimensionCalculator;
+    }
 
     @Override
     public Map generate(MapConfiguration mapConfig) {
-        int size = dimensionCalculator.calculateDimension(mapConfig.mapSize(), 0);
-        String [][] mapRep = new String[size][size];
-        generateMountains(mapConfig.mapElementConfigurations().get(0).elementToSizes());
-        generatePits(mapConfig.mapElementConfigurations().get(1).elementToSizes());
-        generateMinerals(mapConfig.mapElementConfigurations().get(2).elementToSizes());
-        generateWater(mapConfig.mapElementConfigurations().get(3).elementToSizes());
-        return null;
-    }
-    private void generateMountains(List<ElementToSize> elementToSizes) {
-        for(ElementToSize element:elementToSizes){
-            System.out.println(element);
+        int side = dimensionCalculator.calculateDimension(mapConfig.mapSize(), 0);
+        String[][] mapRep = new String[side][side];
+        for (int i = 0; i < side; i++) {
+            for (int j = 0; j < side; j++) {
+                mapRep[i][j] = "";
+            }
         }
-    }
-
-    private void generatePits(List<ElementToSize> elementToSizes) {
-        for(ElementToSize element:elementToSizes){
-            System.out.println(element);
+        Iterable<MapElement> mapElements = mapElementsGenerator.createAll(mapConfig);
+        for (MapElement element : mapElements) {
+            while (true) {
+                Coordinate randomCoordinate = calculator.getRandomCoordinate(side);
+                if (mapElementPlacer.canPlaceElement(element, mapRep, randomCoordinate)) {
+                    mapElementPlacer.placeElement(element, mapRep, randomCoordinate);
+                }
+            }
         }
-    }
-
-    private void generateMinerals(List<ElementToSize> elementToSizes) {
-        for(ElementToSize element:elementToSizes){
-            System.out.println(element);
-        }
-    }
-
-    private void generateWater(List<ElementToSize> elementToSizes) {
-        for(ElementToSize element:elementToSizes){
-            System.out.println(element);
-        }
+        return new Map(mapRep);
     }
 }
 
