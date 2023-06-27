@@ -23,23 +23,23 @@ public class Application {
         System.out.println("Mars Exploration Sprint 1");
 
 
-        Input input=new Input();
+        Input input = new Input();
         MapConfiguration mapConfig = getConfiguration(input);
 
 
         DimensionCalculator dimensionCalculator = new DimensionCalculatorImpl();
 
-        CoordinateCalculator coordinateCalculator = null;
+        CoordinateCalculator coordinateCalculator = new CoordinateCalculatoImpl();
 
         MapElementBuilder mapElementFactory = new MapElementBuilderImpl(dimensionCalculator);
-        MapElementsGenerator mapElementsGenerator = new MapElementsGeneratorImpl();
+        MapElementsGenerator mapElementsGenerator = new MapElementsGeneratorImpl(mapElementFactory);
 
         MapConfigurationValidator mapConfigValidator = new MapConfigurationValidatorImpl();
         MapElementPlacer mapElementPlacer = null;
 
-        MapGenerator mapGenerator = new MapGeneratorImpl();
+        MapGenerator mapGenerator = new MapGeneratorImpl(mapElementsGenerator, dimensionCalculator);
         MapFileWriter fileWriter = new MapFileWriterImpl();
-        Map map = mapElementFactory.build(20,"#","Moniatin",3,"");
+        Map map = mapGenerator.generate(mapConfig);
         fileWriter.writeMapFile(map, "src/main/resources/explorationTest0.map");
 
         createAndWriteMaps(3, mapGenerator, mapConfig);
@@ -61,12 +61,7 @@ public class Application {
 
         Scanner myObj = new Scanner(System.in);
         System.out.println("Please Enter map Size");
-        mapSize=Integer.parseInt(myObj.nextLine());
-
-
-
-
-
+        mapSize = Integer.parseInt(myObj.nextLine());
 
         MapElementConfiguration mountainsCfg = new MapElementConfiguration(
                 mountainSymbol,
@@ -85,8 +80,8 @@ public class Application {
                 "pit",
                 //Input.Input_elemntSize("Pit"),
                 List.of(
-                        new ElementToSize(2,10),
-                        new ElementToSize(1,20)
+                        new ElementToSize(2, 10),
+                        new ElementToSize(1, 20)
                 ),
                 10,
                 ""
@@ -97,7 +92,7 @@ public class Application {
                 "mineral",
                 //Input.Input_elemntSize("Mineral"),
                 List.of(
-                        new ElementToSize(10,1)
+                        new ElementToSize(10, 1)
                 ),
                 0,
                 "#"
@@ -108,15 +103,13 @@ public class Application {
                 "water",
                 //Input.Input_elemntSize("Water"),
                 List.of(
-                        new ElementToSize(10,1)
+                        new ElementToSize(10, 1)
                 ),
                 0,
                 "&"
         );
 
-        List<MapElementConfiguration> elementsCfg = List.of(mountainsCfg,pitsCfg,mineralCfg,waterCfg);
-        System.out.println(elementsCfg);
-        System.out.println("mapsize : "+mapSize);
+        List<MapElementConfiguration> elementsCfg = List.of(mountainsCfg, pitsCfg, mineralCfg, waterCfg);
         return new MapConfiguration(mapSize, 0.5, elementsCfg);
     }
 }
