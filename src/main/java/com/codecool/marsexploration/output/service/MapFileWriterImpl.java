@@ -8,7 +8,7 @@ public class MapFileWriterImpl implements MapFileWriter{
     @Override
     public void writeMapFile(Map map, String file) {
         try{
-            FileWriter fw=new FileWriter("C:\\Users\\PC\\codecool\\OOP\\mars-exploration-1-1q2023-java-BoriszBisits\\src\\main\\resources\\explorationTest.0.map");
+            FileWriter fw=new FileWriter(file);
 
             fw.write(map.toString());
             fw.close();

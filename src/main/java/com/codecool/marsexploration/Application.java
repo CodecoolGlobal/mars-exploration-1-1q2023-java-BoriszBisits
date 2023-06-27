@@ -4,10 +4,13 @@ import com.codecool.marsexploration.calculators.service.*;
 import com.codecool.marsexploration.configuration.model.*;
 import com.codecool.marsexploration.configuration.service.*;
 import com.codecool.marsexploration.mapelements.input.Input;
+import com.codecool.marsexploration.mapelements.model.Map;
 import com.codecool.marsexploration.mapelements.model.MapElement;
 import com.codecool.marsexploration.mapelements.service.builder.*;
 import com.codecool.marsexploration.mapelements.service.generator.*;
 import com.codecool.marsexploration.mapelements.service.placer.*;
+import com.codecool.marsexploration.output.service.MapFileWriter;
+import com.codecool.marsexploration.output.service.MapFileWriterImpl;
 
 import java.util.List;
 import java.util.Scanner;
@@ -35,6 +38,9 @@ public class Application {
         MapElementPlacer mapElementPlacer = null;
 
         MapGenerator mapGenerator = new MapGeneratorImpl();
+        MapFileWriter fileWriter = new MapFileWriterImpl();
+        Map map = mapElementFactory.build(20,"#","Moniatin",3,"");
+        fileWriter.writeMapFile(map, "src/main/resources/explorationTest0.map");
 
         createAndWriteMaps(3, mapGenerator, mapConfig);
 
