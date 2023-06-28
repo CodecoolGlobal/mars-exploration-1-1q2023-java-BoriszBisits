@@ -1,18 +1,12 @@
 package com.codecool.marsexploration.mapelements.service.placer;
 
-import com.codecool.marsexploration.Application;
 import com.codecool.marsexploration.calculators.model.Coordinate;
 import com.codecool.marsexploration.calculators.service.CoordinateCalculator;
-import com.codecool.marsexploration.calculators.service.CoordinateCalculatorImpl;
-import com.codecool.marsexploration.calculators.service.DimensionCalculatorImpl;
-import com.codecool.marsexploration.configuration.model.MapConfiguration;
 import com.codecool.marsexploration.mapelements.model.MapElement;
 
 import java.util.List;
 
 public class MapElementPlacerImpl implements MapElementPlacer {
-
-
     private final CoordinateCalculator coordinateCalculator;
 
     public MapElementPlacerImpl(CoordinateCalculator coordinateCalculator) {
@@ -22,63 +16,68 @@ public class MapElementPlacerImpl implements MapElementPlacer {
 
     @Override
     public boolean canPlaceElement(MapElement element, String[][] map, Coordinate coordinate) {
-
-        if (map[coordinate.x()][coordinate.y()].equals("")) {
-            int side = map.length;
-            int elementSide = (int) Math.sqrt(element.toString().length());
-            int xMinus = (coordinate.x() - elementSide/2)-1;
-            int xPlus = (coordinate.x() + elementSide/2)-1;
-            int yMinus = (coordinate.y() - elementSide/2)-1;
-            int yPlus = (coordinate.y() +elementSide/2)-1;
-
-            if (xMinus >= 0 && yMinus >= 0 && yPlus < side-1 && xPlus < side-1) {
-                if (element.getName().equals("mountain") || element.getName().equals("pit")) {
-                    Iterable<Coordinate> listOfCoordinates = coordinateCalculator.getAdjacentCoordinates(coordinate,elementSide);
-                    if (isContaining(map, listOfCoordinates, "")) {
-                        return true;
-                    }
+        int mapSide = map.length;
+        int elementSide = element.getRepresentation().length;
+        if (map[coordinate.x()][coordinate.y()].equals(" ")) {
+            if (element.getName().equals("mountain") || element.getName().equals("pit")) {
+                System.out.println("Big place");
+                List<Coordinate> neighbouringCoordinates = coordinateCalculator.getAdjacentCoordinates(coordinate, elementSide);
+                if (notOutsideOfMap(neighbouringCoordinates, mapSide)) {
+                    String placeString = collectNeighbouringValues(map, neighbouringCoordinates);
+                    return !placeString.contains("#") || !placeString.contains("&");
                 }
-                if (element.getName().equals("water") || element.getName().equals("mineral")) {
-                    Iterable<Coordinate> isMountainOrPit = coordinateCalculator.getAdjacentCoordinates(coordinate,1);
-                    if (element.getName().equals("water")) {
-                        if (isContaining(map, isMountainOrPit, "&")) {
-                            return true;
-                        }
-                    }
-                    if (element.getName().equals("mineral")) {
-                        if (isContaining(map, isMountainOrPit, "#")) {
-                            return true;
-                        }
-                    }
+                return false;
+            } else {
+                System.out.println("Small place");
+                List<Coordinate> neighbouringCoordinates = coordinateCalculator.getAdjacentCoordinates(coordinate, elementSide + 1);
+                if (notOutsideOfMap(neighbouringCoordinates, mapSide)) {
+                    String placeString = collectNeighbouringValues(map, neighbouringCoordinates);
+                    return placeString.contains(element.getPreferredLocationSymbol());
                 }
-
             }
         }
         return false;
-
     }
 
-    private static boolean isContaining(String[][] map, Iterable<Coordinate> listOfCoordinates, String elementSymbol) {
-        for (Coordinate c : listOfCoordinates) {
-            if (map[c.x()][c.y()].equals(elementSymbol)) {
-                return true;
-            }
+    private String collectNeighbouringValues(String[][] map, List<Coordinate> neighbouringCoordinates) {
+        String placeString = "";
+        for (Coordinate neighbouringCoordinate : neighbouringCoordinates) {
+            placeString = placeString + map[neighbouringCoordinate.x()][neighbouringCoordinate.y()];
         }
-        return false;
+        return placeString;
+    }
+
+    private boolean notOutsideOfMap(List<Coordinate> neighbouringCoordinates, int mapSide) {
+        return neighbouringCoordinates.get(0).x() >= 0
+                && neighbouringCoordinates.get(0).y() >= 0
+                && neighbouringCoordinates.get(neighbouringCoordinates.size() - 1).x() < mapSide
+                && neighbouringCoordinates.get(neighbouringCoordinates.size() - 1).y() < mapSide;
     }
 
     @Override
     public void placeElement(MapElement element, String[][] map, Coordinate coordinate) {
-
-        int elementSide= (int) Math.sqrt(element.toString().length()+1);
-        int xMinus = (coordinate.x() - (elementSide/2));
-        int yMinus = (coordinate.y() - (elementSide/2));
-
-        for (int y = 0; y < elementSide; y++) {
-            for (int x = 0; x < elementSide ; x++) {
-                String character = Character.toString(element.toString().charAt(y*elementSide+x));
-                map[x+yMinus][y+xMinus]=character;
+        int mapSide = map.length;
+        int elementSide = element.getRepresentation().length;
+        String elementString = element.createStringRepresentation(element.getRepresentation());
+        List<Coordinate> coordinateList = coordinateCalculator.getAdjacentCoordinates(coordinate, elementSide);
+        int iterator = 0;
+        System.out.println(mapSide);
+        System.out.println(elementSide);
+        int x = coordinateList.get(0).x();
+        int y = coordinateList.get(0).y();
+        while (iterator < (elementSide * elementSide + elementSide)) {
+            char nextChar = elementString.charAt(iterator);
+            String character = String.valueOf(elementString.charAt(iterator));
+            if ((nextChar == '\n') || (nextChar == '\r')) {
+                x = coordinateList.get(0).x();
+                y++;
+            } else {
+                if (!character.equals(" ")) {
+                    map[x][y] = String.valueOf(elementString.charAt(iterator));
+                }
+                x++;
             }
+            iterator++;
         }
     }
 }

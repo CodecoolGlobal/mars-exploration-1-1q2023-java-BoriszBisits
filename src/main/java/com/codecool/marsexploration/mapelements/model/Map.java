@@ -1,54 +1,36 @@
 package com.codecool.marsexploration.mapelements.model;
 
-import java.util.Arrays;
 
 public class Map {
     private static String[][] representation;
-
-    private boolean successfullyGenerated;
 
     public Map(String[][] representation) {
         this.representation = representation;
     }
 
-    public boolean isSuccessfullyGenerated() {
-        return successfullyGenerated;
-    }
-
-    public void setSuccessfullyGenerated(boolean successfullyGenerated) {
-        this.successfullyGenerated = successfullyGenerated;
-    }
-
-    public static String createStringRepresentation(String[][] arr) {
-
-
-        StringBuilder simpleString = new StringBuilder();
-
+    public String createStringRepresentation(String[][] arr) {
+        StringBuilder sb = new StringBuilder();
 
         for (String[] row : arr) {
-            //System.out.println(row.length);
             for (String element : row) {
-                simpleString.append(element).append(" ");
+                sb.append(element);
             }
-            simpleString.append(System.lineSeparator());
+            sb.append('\n');
         }
-
-        return simpleString.toString();
-    }
-    private static String createStringRepresentationForAll(String[][] arr){
-        String rep = "";
-        for (int y = 0; y < arr.length; y++) {
-            for (int x = 0; x < arr[y].length; x++) {
-                //System.out.println(arr[y][x]);
-                rep = rep+arr[y][x];
-            }
-        }
-        return rep;
+        return sb.toString();
     }
 
     @Override
     public String toString() {
-        return createStringRepresentationForAll(representation);
+        StringBuilder sb = new StringBuilder();
+
+        for (String[] row : representation) {
+            for (String element : row) {
+                sb.append(element).append(" ");
+            }
+            sb.append(System.lineSeparator());
+        }
+        return sb.toString();
     }
 
     public String toStringForFileWriter() {

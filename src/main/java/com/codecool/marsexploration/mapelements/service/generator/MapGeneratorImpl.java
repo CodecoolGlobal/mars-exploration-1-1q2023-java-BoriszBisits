@@ -8,7 +8,6 @@ import com.codecool.marsexploration.configuration.model.MapConfiguration;
 import com.codecool.marsexploration.mapelements.model.Map;
 import com.codecool.marsexploration.mapelements.model.MapElement;
 import com.codecool.marsexploration.mapelements.service.placer.MapElementPlacer;
-import com.codecool.marsexploration.mapelements.service.placer.MapElementPlacerImpl;
 
 public class MapGeneratorImpl implements MapGenerator {
 
@@ -34,7 +33,6 @@ public class MapGeneratorImpl implements MapGenerator {
         }
         Iterable<MapElement> mapElements = mapElementsGenerator.createAll(mapConfig);
         for (MapElement element : mapElements) {
-            System.out.println(element.getName());
             while (true) {
                 Coordinate randomCoordinate = calculator.getRandomCoordinate(side);
                 if (mapElementPlacer.canPlaceElement(element, mapRep, randomCoordinate)) {
@@ -42,12 +40,6 @@ public class MapGeneratorImpl implements MapGenerator {
                     break;
                 }
             }
-        }
-        for (int y = 0; y < mapRep.length; y++) {
-            for (int x = 0; x < mapRep[y].length; x++) {
-                System.out.print(mapRep[y][x]);
-            }
-            System.out.println();
         }
         return new Map(mapRep);
     }
