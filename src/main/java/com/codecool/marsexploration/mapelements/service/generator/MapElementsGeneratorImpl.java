@@ -10,7 +10,6 @@ import java.util.List;
 
 public class MapElementsGeneratorImpl implements MapElementsGenerator {
     private final MapElementBuilder mapElementBuilder;
-    List<MapElement> mapElements = new ArrayList<>();
 
     public MapElementsGeneratorImpl(MapElementBuilder mapElementBuilder) {
         this.mapElementBuilder = mapElementBuilder;
@@ -18,22 +17,29 @@ public class MapElementsGeneratorImpl implements MapElementsGenerator {
 
     @Override
     public Iterable<MapElement> createAll(MapConfiguration mapConfig) {
+        List<MapElement> allMapElements = new ArrayList<>();
 
         for (int i = 0; i < mapConfig.mapElementConfigurations().size(); i++) {
-            generateMapElements(mapConfig.mapElementConfigurations().get(i));
+            List<MapElement> generatedMapElements = generateMapElements(mapConfig.mapElementConfigurations().get(i));
+            allMapElements.addAll(generatedMapElements);
         }
-        return mapElements;
+        return allMapElements;
     }
 
-    private void generateMapElements(MapElementConfiguration mapElementConfiguration) {
+    private List<MapElement> generateMapElements(MapElementConfiguration mapElementConfiguration) {
+        List<MapElement> mapElements = new ArrayList<>();
         for (ElementToSize element : mapElementConfiguration.elementToSizes()) {
-            mapElements.add(
-                    mapElementBuilder.build(element.size(),
-                            mapElementConfiguration.symbol(),
-                            mapElementConfiguration.name(),
-                            mapElementConfiguration.dimensionGrowth(),
-                            mapElementConfiguration.preferredLocationSymbol())
-            );
+            for (int i = 0; i < element.elementCount(); i++) {
+                String[][] singleMapElement = mapElementBuilder.build(element.size(),
+                        mapElementConfiguration.symbol(),
+                        mapElementConfiguration.dimensionGrowth());
+
+                mapElements.add(new MapElement(singleMapElement,
+                        mapElementConfiguration.name(),
+                        mapElementConfiguration.dimensionGrowth(),
+                        mapElementConfiguration.preferredLocationSymbol()));
+            }
         }
+        return mapElements;
     }
 }

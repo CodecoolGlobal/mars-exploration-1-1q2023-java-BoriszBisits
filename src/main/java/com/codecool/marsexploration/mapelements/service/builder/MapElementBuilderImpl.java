@@ -1,10 +1,10 @@
 package com.codecool.marsexploration.mapelements.service.builder;
 
 import com.codecool.marsexploration.calculators.service.DimensionCalculator;
-import com.codecool.marsexploration.mapelements.model.MapElement;
+
 import java.util.Random;
 
-public class MapElementBuilderImpl implements MapElementBuilder{
+public class MapElementBuilderImpl implements MapElementBuilder {
     DimensionCalculator dimensionCalculator;
     Random random = new Random();
 
@@ -13,23 +13,23 @@ public class MapElementBuilderImpl implements MapElementBuilder{
     }
 
     @Override
-    public MapElement build(int size, String symbol, String name, int dimensionGrowth, String preferredLocationSymbol) {
-        int side = dimensionCalculator.calculateDimension(size,dimensionGrowth);
-        String[][] mapElement = new String[side][side];
+    public String[][] build(int size, String symbol, int dimensionGrowth) {
+        int side = dimensionCalculator.calculateDimension(size, dimensionGrowth);
+        String[][] element = new String[side][side];
         for (int i = 0; i < side; i++) {
             for (int j = 0; j < side; j++) {
-                mapElement[i][j]="";
+                element[i][j] = " ";
             }
         }
         int remainingElements = size;
-        while (remainingElements>0){
+        while (remainingElements > 0) {
             int y = random.nextInt(side);
             int x = random.nextInt(side);
-            if(mapElement[x][y].equals("")){
-                mapElement[x][y]=symbol;
+            if (element[x][y].equals(" ")) {
+                element[x][y] = symbol;
                 remainingElements--;
             }
         }
-        return new MapElement(mapElement,name,size);
+        return element;
     }
 }

@@ -5,7 +5,6 @@ import com.codecool.marsexploration.configuration.model.*;
 import com.codecool.marsexploration.configuration.service.*;
 import com.codecool.marsexploration.mapelements.input.Input;
 import com.codecool.marsexploration.mapelements.model.Map;
-import com.codecool.marsexploration.mapelements.model.MapElement;
 import com.codecool.marsexploration.mapelements.service.builder.*;
 import com.codecool.marsexploration.mapelements.service.generator.*;
 import com.codecool.marsexploration.mapelements.service.placer.*;
@@ -22,23 +21,17 @@ public class Application {
     public static void main(String[] args) {
         System.out.println("Mars Exploration Sprint 1");
 
-
         Input input = new Input();
         MapConfiguration mapConfig = getConfiguration(input);
-
-
         DimensionCalculator dimensionCalculator = new DimensionCalculatorImpl();
-
-        CoordinateCalculator coordinateCalculator = new CoordinateCalculatoImpl();
-
+        CoordinateCalculator coordinateCalculator = new CoordinateCalculatorImpl();
         MapElementBuilder mapElementFactory = new MapElementBuilderImpl(dimensionCalculator);
         MapElementsGenerator mapElementsGenerator = new MapElementsGeneratorImpl(mapElementFactory);
-
         MapConfigurationValidator mapConfigValidator = new MapConfigurationValidatorImpl();
-        MapElementPlacer mapElementPlacer = null;
-
-        MapGenerator mapGenerator = new MapGeneratorImpl(mapElementsGenerator, dimensionCalculator);
+        MapElementPlacer mapElementPlacer = new MapElementPlacerImpl(coordinateCalculator);
+        MapGenerator mapGenerator = new MapGeneratorImpl(mapElementsGenerator, dimensionCalculator, mapElementPlacer);
         MapFileWriter fileWriter = new MapFileWriterImpl();
+
         Map map = mapGenerator.generate(mapConfig);
         fileWriter.writeMapFile(map, "src/main/resources/explorationTest0.map");
 
@@ -57,22 +50,21 @@ public class Application {
         final String waterSymbol = "*";
         int mapSize;
 
-        List<ElementToSize> Input_Mountain;
-
-        Scanner myObj = new Scanner(System.in);
-        System.out.println("Please Enter map Size");
-        mapSize = Integer.parseInt(myObj.nextLine());
-
+//        Scanner myObj = new Scanner(System.in);
+//        System.out.println("Please Enter map Size");
+//        mapSize = Integer.parseInt(myObj.nextLine());
+        mapSize = 1000;
         MapElementConfiguration mountainsCfg = new MapElementConfiguration(
                 mountainSymbol,
                 "mountain",
                 //Input.Input_elemntSize("Mountain")
                 List.of(
-                        new ElementToSize(2, 20),
+                        new ElementToSize(1, 20),
+                        new ElementToSize(1, 20),
                         new ElementToSize(1, 30)
                 ),
                 3,
-                ""
+                " "
         );
 
         MapElementConfiguration pitsCfg = new MapElementConfiguration(
@@ -80,11 +72,12 @@ public class Application {
                 "pit",
                 //Input.Input_elemntSize("Pit"),
                 List.of(
-                        new ElementToSize(2, 10),
+                        new ElementToSize(1, 10),
+                        new ElementToSize(1, 10),
                         new ElementToSize(1, 20)
                 ),
                 10,
-                ""
+                " "
         );
 
         MapElementConfiguration mineralCfg = new MapElementConfiguration(
