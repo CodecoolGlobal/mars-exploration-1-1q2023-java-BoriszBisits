@@ -5,7 +5,6 @@ import com.codecool.marsexploration.configuration.model.*;
 import com.codecool.marsexploration.configuration.service.*;
 import com.codecool.marsexploration.mapelements.input.Input;
 import com.codecool.marsexploration.mapelements.model.Map;
-import com.codecool.marsexploration.mapelements.model.MapElement;
 import com.codecool.marsexploration.mapelements.service.builder.*;
 import com.codecool.marsexploration.mapelements.service.generator.*;
 import com.codecool.marsexploration.mapelements.service.placer.*;
@@ -29,15 +28,15 @@ public class Application {
 
         DimensionCalculator dimensionCalculator = new DimensionCalculatorImpl();
 
-        CoordinateCalculator coordinateCalculator = new CoordinateCalculatoImpl();
+        CoordinateCalculator coordinateCalculator = new CoordinateCalculatorImpl();
 
         MapElementBuilder mapElementFactory = new MapElementBuilderImpl(dimensionCalculator);
         MapElementsGenerator mapElementsGenerator = new MapElementsGeneratorImpl(mapElementFactory);
 
         MapConfigurationValidator mapConfigValidator = new MapConfigurationValidatorImpl();
-        MapElementPlacer mapElementPlacer = null;
+        MapElementPlacer mapElementPlacer = new MapElementPlacerImpl(coordinateCalculator);
 
-        MapGenerator mapGenerator = new MapGeneratorImpl(mapElementsGenerator, dimensionCalculator);
+        MapGenerator mapGenerator = new MapGeneratorImpl(mapElementsGenerator, dimensionCalculator, mapElementPlacer);
         MapFileWriter fileWriter = new MapFileWriterImpl();
         Map map = mapGenerator.generate(mapConfig);
         fileWriter.writeMapFile(map, "src/main/resources/explorationTest0.map");

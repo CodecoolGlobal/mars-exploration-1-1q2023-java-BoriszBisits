@@ -1,7 +1,7 @@
 package com.codecool.marsexploration.mapelements.service.generator;
 
 import com.codecool.marsexploration.calculators.model.Coordinate;
-import com.codecool.marsexploration.calculators.service.CoordinateCalculatoImpl;
+import com.codecool.marsexploration.calculators.service.CoordinateCalculatorImpl;
 import com.codecool.marsexploration.calculators.service.CoordinateCalculator;
 import com.codecool.marsexploration.calculators.service.DimensionCalculator;
 import com.codecool.marsexploration.configuration.model.MapConfiguration;
@@ -14,12 +14,13 @@ public class MapGeneratorImpl implements MapGenerator {
 
     private final MapElementsGenerator mapElementsGenerator;
     private final DimensionCalculator dimensionCalculator;
-    MapElementPlacer mapElementPlacer = new MapElementPlacerImpl();
-    CoordinateCalculator calculator = new CoordinateCalculatoImpl();
+    private final MapElementPlacer mapElementPlacer;
+    CoordinateCalculator calculator = new CoordinateCalculatorImpl();
 
-    public MapGeneratorImpl(MapElementsGenerator mapElementsGenerator, DimensionCalculator dimensionCalculator) {
+    public MapGeneratorImpl(MapElementsGenerator mapElementsGenerator, DimensionCalculator dimensionCalculator, MapElementPlacer mapElementPlacer) {
         this.mapElementsGenerator = mapElementsGenerator;
         this.dimensionCalculator = dimensionCalculator;
+        this.mapElementPlacer = mapElementPlacer;
     }
 
     @Override
@@ -28,17 +29,25 @@ public class MapGeneratorImpl implements MapGenerator {
         String[][] mapRep = new String[side][side];
         for (int i = 0; i < side; i++) {
             for (int j = 0; j < side; j++) {
-                mapRep[i][j] = "";
+                mapRep[i][j] = " ";
             }
         }
         Iterable<MapElement> mapElements = mapElementsGenerator.createAll(mapConfig);
         for (MapElement element : mapElements) {
+            System.out.println(element.getName());
             while (true) {
                 Coordinate randomCoordinate = calculator.getRandomCoordinate(side);
                 if (mapElementPlacer.canPlaceElement(element, mapRep, randomCoordinate)) {
                     mapElementPlacer.placeElement(element, mapRep, randomCoordinate);
+                    break;
                 }
             }
+        }
+        for (int y = 0; y < mapRep.length; y++) {
+            for (int x = 0; x < mapRep[y].length; x++) {
+                System.out.print(mapRep[y][x]);
+            }
+            System.out.println();
         }
         return new Map(mapRep);
     }

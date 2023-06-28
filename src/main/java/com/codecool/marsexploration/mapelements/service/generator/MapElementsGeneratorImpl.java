@@ -20,6 +20,7 @@ public class MapElementsGeneratorImpl implements MapElementsGenerator {
     public Iterable<MapElement> createAll(MapConfiguration mapConfig) {
 
         for (int i = 0; i < mapConfig.mapElementConfigurations().size(); i++) {
+            System.out.println(i);
             generateMapElements(mapConfig.mapElementConfigurations().get(i));
         }
         return mapElements;
@@ -27,13 +28,15 @@ public class MapElementsGeneratorImpl implements MapElementsGenerator {
 
     private void generateMapElements(MapElementConfiguration mapElementConfiguration) {
         for (ElementToSize element : mapElementConfiguration.elementToSizes()) {
-            mapElements.add(
-                    mapElementBuilder.build(element.size(),
-                            mapElementConfiguration.symbol(),
-                            mapElementConfiguration.name(),
-                            mapElementConfiguration.dimensionGrowth(),
-                            mapElementConfiguration.preferredLocationSymbol())
-            );
+            for (int i = 0; i < element.elementCount(); i++) {
+                mapElements.add(
+                        mapElementBuilder.build(element.size(),
+                                mapElementConfiguration.symbol(),
+                                mapElementConfiguration.name(),
+                                mapElementConfiguration.dimensionGrowth(),
+                                mapElementConfiguration.preferredLocationSymbol())
+                );
+            }
         }
     }
 }

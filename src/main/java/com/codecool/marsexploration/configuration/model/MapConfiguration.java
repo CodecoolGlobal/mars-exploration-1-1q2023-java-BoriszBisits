@@ -5,4 +5,9 @@ import java.util.List;
 public record MapConfiguration(
         int mapSize,
         double elementToSpaceRatio,
-        List<MapElementConfiguration> mapElementConfigurations) {}
+        List<MapElementConfiguration> mapElementConfigurations) {
+    @Override
+    public int mapSize() {
+        return mapSize;
+    }
+}

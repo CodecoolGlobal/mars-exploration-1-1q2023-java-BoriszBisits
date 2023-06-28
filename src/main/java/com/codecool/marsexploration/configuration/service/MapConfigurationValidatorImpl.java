@@ -11,9 +11,9 @@ public class MapConfigurationValidatorImpl implements MapConfigurationValidator 
         int allElements = 0;
         int availableSpace = (int) (mapConfig.mapSize() * mapConfig.elementToSpaceRatio());
         for (MapElementConfiguration mapElement : mapConfig.mapElementConfigurations()) {
-            System.out.println(mapElement.name());
+            //System.out.println(mapElement.name());
             for (ElementToSize element : mapElement.elementToSizes()) {
-                System.out.println(element.elementCount() + " " + element.size());
+                //System.out.println(element.elementCount() + " " + element.size());
                 allElements += element.elementCount() * element.size();
             }
         }

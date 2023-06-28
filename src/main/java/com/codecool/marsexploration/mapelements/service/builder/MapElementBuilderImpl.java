@@ -18,14 +18,14 @@ public class MapElementBuilderImpl implements MapElementBuilder{
         String[][] mapElement = new String[side][side];
         for (int i = 0; i < side; i++) {
             for (int j = 0; j < side; j++) {
-                mapElement[i][j]="";
+                mapElement[i][j]=" ";
             }
         }
         int remainingElements = size;
         while (remainingElements>0){
             int y = random.nextInt(side);
             int x = random.nextInt(side);
-            if(mapElement[x][y].equals("")){
+            if(mapElement[x][y].equals(" ")){
                 mapElement[x][y]=symbol;
                 remainingElements--;
             }
