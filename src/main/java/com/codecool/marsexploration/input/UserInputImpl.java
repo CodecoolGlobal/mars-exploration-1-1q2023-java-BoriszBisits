@@ -19,7 +19,7 @@ public class UserInputImpl implements UserInput{
         int mapSize = getInput(scanner, "Please enter map size");
 
         MapElementConfiguration mountainsCfg = getBigElementConfig(scanner, mountainSymbol, "mountain", 3);
-        MapElementConfiguration pitsCfg = getBigElementConfig(scanner, pitSymbol, "pit", 10);
+        MapElementConfiguration pitsCfg = getBigElementConfig(scanner, pitSymbol, "pit", 5);
         MapElementConfiguration mineralCfg = getSmallElementConfig(scanner, mineralSymbol, "mineral", "#");
         MapElementConfiguration waterCfg = getSmallElementConfig(scanner, waterSymbol, "water", "&");
         List<MapElementConfiguration> elementsCfg = List.of(mountainsCfg, pitsCfg, mineralCfg, waterCfg);
