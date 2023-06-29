@@ -2,7 +2,7 @@ package com.codecool.marsexploration.mapelements.model;
 
 
 public class Map {
-    private static String[][] representation;
+    private String[][] representation;
 
     public Map(String[][] representation) {
         this.representation = representation;
