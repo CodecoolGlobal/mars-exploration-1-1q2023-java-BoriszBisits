@@ -34,6 +34,7 @@ public class MapGeneratorImpl implements MapGenerator {
         Iterable<MapElement> mapElements = mapElementsGenerator.createAll(mapConfig);
         for (MapElement element : mapElements) {
             while (true) {
+                System.out.println("Placing " + element.getName());
                 Coordinate randomCoordinate = calculator.getRandomCoordinate(side);
                 if (mapElementPlacer.canPlaceElement(element, mapRep, randomCoordinate)) {
                     mapElementPlacer.placeElement(element, mapRep, randomCoordinate);
