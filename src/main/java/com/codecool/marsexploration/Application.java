@@ -4,6 +4,7 @@ import com.codecool.marsexploration.calculators.service.*;
 import com.codecool.marsexploration.configuration.model.*;
 import com.codecool.marsexploration.configuration.service.*;
 import com.codecool.marsexploration.input.UserInput;
+import com.codecool.marsexploration.input.UserInputImpl;
 import com.codecool.marsexploration.mapelements.model.Map;
 import com.codecool.marsexploration.mapelements.service.builder.*;
 import com.codecool.marsexploration.mapelements.service.generator.*;
@@ -18,7 +19,7 @@ public class Application {
     public static void main(String[] args) {
         System.out.println("Mars Exploration Sprint 1");
 
-        UserInput userInput = new UserInput();
+        UserInput userInput = new UserInputImpl();
         DimensionCalculator dimensionCalculator = new DimensionCalculatorImpl();
         CoordinateCalculator coordinateCalculator = new CoordinateCalculatorImpl();
         MapElementBuilder mapElementFactory = new MapElementBuilderImpl(dimensionCalculator);
