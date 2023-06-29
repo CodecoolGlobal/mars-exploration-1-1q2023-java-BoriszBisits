@@ -5,6 +5,7 @@ import com.codecool.marsexploration.configuration.model.*;
 import com.codecool.marsexploration.configuration.service.*;
 import com.codecool.marsexploration.input.UserInput;
 import com.codecool.marsexploration.input.UserInputImpl;
+import com.codecool.marsexploration.mapelements.model.Map;
 import com.codecool.marsexploration.mapelements.service.builder.*;
 import com.codecool.marsexploration.mapelements.service.generator.*;
 import com.codecool.marsexploration.mapelements.service.placer.*;
@@ -30,7 +31,7 @@ public class Application {
         while (true){
             MapConfiguration mapConfig = userInput.getConfiguration();
             if (mapConfigValidator.validate(mapConfig)){
-                createAndWriteMaps(3, mapGenerator, mapConfig);
+                createAndWriteMaps(5, mapGenerator, mapConfig);
                 break;
             }
         }
@@ -39,11 +40,11 @@ public class Application {
 
     private static void createAndWriteMaps(int count, MapGenerator mapGenerator, MapConfiguration mapConfig) {
         MapFileWriter fileWriter = new MapFileWriterImpl();
-//        for (int i = 0; i < count; i++) {
-//            String filepath = "src/main/resources/exploration-"+i+".map";
-//            Map map = mapGenerator.generate(mapConfig);
-//            fileWriter.writeMapFile(map,filepath);
-//        }
+        for (int i = 0; i < count; i++) {
+            String filepath = "src/main/resources/maps/exploration-"+i+".map";
+            Map map = mapGenerator.generate(mapConfig);
+            fileWriter.writeMapFile(map,filepath);
+        }
         showUi(mapConfig);
     }
 

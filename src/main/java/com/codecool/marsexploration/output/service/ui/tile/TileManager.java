@@ -1,7 +1,6 @@
 package com.codecool.marsexploration.output.service.ui.tile;
 
 import com.codecool.marsexploration.output.service.ui.GamePanel;
-
 import javax.imageio.ImageIO;
 import java.awt.*;
 import java.io.BufferedReader;
@@ -12,7 +11,7 @@ import java.io.InputStreamReader;
 public class TileManager {
     GamePanel gp;
     Tile[] tile;
-    int mapTileNum[][];
+    int[][] mapTileNum;
 
     public TileManager(GamePanel gp) {
         this.gp = gp;
@@ -31,9 +30,6 @@ public class TileManager {
             while (col < gp.side && row < gp.side) {
                 String line = br.readLine();
                 while(col < gp.side){
-                    //String numbers[] = line.split("");
-                    //int num = Integer.parseInt(numbers[col]);
-                    //String character = String.valueOf(elementString.charAt(iterator));
                     String character = String.valueOf(line.charAt(col));
                     int num;
                     switch (character){

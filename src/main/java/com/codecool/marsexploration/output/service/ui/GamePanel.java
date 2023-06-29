@@ -23,7 +23,6 @@ public class GamePanel extends JPanel implements Runnable {
         this.setFocusable(true);
     }
 
-
     public void startGameThread() {
         gameThread = new Thread(this);
         gameThread.start();
@@ -39,7 +38,6 @@ public class GamePanel extends JPanel implements Runnable {
 
     public void update() {
         if (keyH.spacePressed) {
-            System.out.println("Space pressed");
             tileM.loadMap(keyH.mapNum);
             keyH.spacePressed = false;
         }
@@ -51,6 +49,4 @@ public class GamePanel extends JPanel implements Runnable {
         tileM.draw(g2);
         g2.dispose();
     }
-
-
 }
