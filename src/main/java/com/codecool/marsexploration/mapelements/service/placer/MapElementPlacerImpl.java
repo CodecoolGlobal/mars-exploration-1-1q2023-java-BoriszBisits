@@ -20,7 +20,6 @@ public class MapElementPlacerImpl implements MapElementPlacer {
         int elementSide = element.getRepresentation().length;
         if (map[coordinate.x()][coordinate.y()].equals(" ")) {
             if (element.getName().equals("mountain") || element.getName().equals("pit")) {
-                System.out.println("Big place");
                 List<Coordinate> neighbouringCoordinates = coordinateCalculator.getAdjacentCoordinates(coordinate, elementSide);
                 if (notOutsideOfMap(neighbouringCoordinates, mapSide)) {
                     String placeString = collectNeighbouringValues(map, neighbouringCoordinates);
@@ -28,7 +27,6 @@ public class MapElementPlacerImpl implements MapElementPlacer {
                 }
                 return false;
             } else {
-                System.out.println("Small place");
                 List<Coordinate> neighbouringCoordinates = coordinateCalculator.getAdjacentCoordinates(coordinate, elementSide + 1);
                 if (notOutsideOfMap(neighbouringCoordinates, mapSide)) {
                     String placeString = collectNeighbouringValues(map, neighbouringCoordinates);
@@ -56,13 +54,10 @@ public class MapElementPlacerImpl implements MapElementPlacer {
 
     @Override
     public void placeElement(MapElement element, String[][] map, Coordinate coordinate) {
-        int mapSide = map.length;
         int elementSide = element.getRepresentation().length;
         String elementString = element.createStringRepresentation(element.getRepresentation());
         List<Coordinate> coordinateList = coordinateCalculator.getAdjacentCoordinates(coordinate, elementSide);
         int iterator = 0;
-        System.out.println(mapSide);
-        System.out.println(elementSide);
         int x = coordinateList.get(0).x();
         int y = coordinateList.get(0).y();
         while (iterator < (elementSide * elementSide + elementSide)) {
