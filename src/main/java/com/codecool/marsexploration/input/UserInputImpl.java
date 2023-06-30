@@ -64,9 +64,7 @@ public class UserInputImpl implements UserInput{
         return new MapElementConfiguration(
                 symbol,
                 name,
-                List.of(
-                        new ElementToSize(numberOfSmallElement, 1)
-                ),
+                List.of(new ElementToSize(numberOfSmallElement, 1)),
                 0,
                 preferredLocationSymbol
         );

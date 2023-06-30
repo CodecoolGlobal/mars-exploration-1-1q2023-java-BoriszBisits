@@ -25,15 +25,10 @@ public class MapGeneratorImpl implements MapGenerator {
     @Override
     public Map generate(MapConfiguration mapConfig) {
         int side = dimensionCalculator.calculateDimension(mapConfig.mapSize(), 0);
-        String[][] mapRep = new String[side][side];
-        for (int i = 0; i < side; i++) {
-            for (int j = 0; j < side; j++) {
-                mapRep[i][j] = " ";
-            }
-        }
+        String[][] mapArray = generateEmptyMap(side);
         Iterable<MapElement> mapElements = mapElementsGenerator.createAll(mapConfig);
         for (MapElement element : mapElements) {
-            while (true) {
+            while (true) {  // idea: getting random coordinates from array of coordinates
                 System.out.println("Placing " + element.getName());
                 Coordinate randomCoordinate = calculator.getRandomCoordinate(side);
                 if (mapElementPlacer.canPlaceElement(element, mapRep, randomCoordinate)) {
@@ -42,7 +37,17 @@ public class MapGeneratorImpl implements MapGenerator {
                 }
             }
         }
-        return new Map(mapRep);
+        return new Map(mapArray);
+    }
+
+    private String[][] generateEmptyMap(int side) {
+        String[][] mapArray = new String[side][side];
+        for (int i = 0; i < side; i++) {
+            for (int j = 0; j < side; j++) {
+                mapArray[i][j] = " ";
+            }
+        }
+        return mapArray;
     }
 }
 
