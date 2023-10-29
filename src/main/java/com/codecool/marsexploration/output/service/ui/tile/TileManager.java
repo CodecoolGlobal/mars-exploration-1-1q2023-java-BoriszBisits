@@ -29,25 +29,16 @@ public class TileManager {
             int row = 0;
             while (col < gp.side && row < gp.side) {
                 String line = br.readLine();
+                System.out.println(line);
                 while(col < gp.side){
                     String character = String.valueOf(line.charAt(col));
-                    int num;
-                    switch (character){
-                        case "%":
-                            num = 1;
-                            break;
-                        case "#":
-                            num = 2;
-                            break;
-                        case "&":
-                            num = 3;
-                            break;
-                        case "*":
-                            num = 4;
-                            break;
-                        default:
-                            num = 0;
-                    }
+                    int num = switch (character) {
+                        case "%" -> 1;
+                        case "#" -> 2;
+                        case "&" -> 3;
+                        case "*" -> 4;
+                        default -> 0;
+                    };
                     mapTileNum[col][row]=num;
                     col++;
                 }

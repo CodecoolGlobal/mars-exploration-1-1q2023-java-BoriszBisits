@@ -45,4 +45,3 @@ public class MapGeneratorImpl implements MapGenerator {
         return new Map(mapRep);
     }
 }
-
