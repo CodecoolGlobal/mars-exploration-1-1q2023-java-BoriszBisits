@@ -19,7 +19,26 @@ Step between the maps using the A and D keys.
 * JAVA
 
 ## Getting Started
+For Developers:
+Clone the repository:
 
-1. Clone the repository: git clone git@github.com:CodecoolGlobal/mars-exploration-1-1q2023-java-BoriszBisits.git
-2. Start the Application file.
+```
+git clone git@github.com:CodecoolGlobal/mars-exploration-1-1q2023-java-BoriszBisits.git
+```
+
+Start the Application file.
+
+For Users:
+I. Install Java 17 SE for your Operating System:
+
+1. [Windows](https://download.oracle.com/java/17/archive/jdk-17.0.9_windows-x64_bin.exe)
+2. [Linux (Debian package)](https://download.oracle.com/java/17/archive/jdk-17.0.9_linux-x64_bin.deb)
+3. [linux (RPM Package)](https://download.oracle.com/java/17/archive/jdk-17.0.9_linux-x64_bin.rpm)
+4. [Mac OS](https://download.oracle.com/java/17/archive/jdk-17.0.9_macos-x64_bin.dmg)
+
+If you would like something different, the whole list is awailable [here](https://www.oracle.com/java/technologies/javase/jdk17-archive-downloads.html)
+
+II. Download and install the .jar file from [here](https://github.com/CodecoolGlobal/mars-exploration-1-1q2023-java-BoriszBisits/releases/download/deployment/mars-exploration-1.0.jar)
+
+III. Enjoy!
 

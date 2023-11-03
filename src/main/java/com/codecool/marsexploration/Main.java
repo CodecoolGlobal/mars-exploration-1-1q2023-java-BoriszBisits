@@ -14,7 +14,7 @@ import com.codecool.marsexploration.output.service.MapFileWriterImpl;
 import com.codecool.marsexploration.output.service.ui.GamePanel;
 import javax.swing.*;
 
-public class Application {
+public class Main {
 
     public static void main(String[] args) {
         System.out.println("Mars Exploration Sprint 1");
