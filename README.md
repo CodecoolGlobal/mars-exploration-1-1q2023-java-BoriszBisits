@@ -1,9 +1,14 @@
 # Mars exploration
 ## Table of Contents
+- [Screenshot](#screenshot)
 - [Description](#description)
 - [Features](#features)
 - [Technologies Used](#technologies-used)
 - [Getting Started](#getting-started)
+
+## Screenshot
+
+![Screenshot 2023-06-28 214555](https://github.com/CodecoolGlobal/mars-exploration-1-1q2023-java-BoriszBisits/assets/115445237/234d7cbc-8fe4-49d1-bf02-26c541eb559c)
 
 ## Description
 Procedurally generated map using JPanel for visualisation. The maps are stored in a simple .txt file in '/src/main/resources/maps' folder.
